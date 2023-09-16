@@ -5,6 +5,7 @@ import { createSlice } from '@reduxjs/toolkit';
  */
 export const initialState = {
   loading: false,
+  isInvalidSurveyId: false,
 };
 /**
  * All actions related to dashboard feature are defined here
@@ -13,17 +14,18 @@ export const chatSlice = createSlice({
   name: 'feature/chat',
   initialState,
   reducers: {
-    createSurveySession: (state) => ({
+    validateSurveyLinkId: (state) => ({
       ...state,
       loading: true,
     }),
-    createSurveySessionSucceeded: (state) => ({
+    validateSurveyLinkIdSucceeded: (state) => ({
       ...state,
       loading: false,
     }),
-    createSurveySessionFailed: (state) => ({
+    validateSurveyLinkIdFailed: (state) => ({
       ...state,
       loading: false,
+      isInvalidSurveyId: true
     }),
   },
 });
