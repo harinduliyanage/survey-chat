@@ -10,7 +10,7 @@ npm install
 ## Set the environment variables
 
 ```bash
-cp sample.env .env
+cp .env.dist .env
 
 # open .env and modify the environment variables (if needed)
 ```
