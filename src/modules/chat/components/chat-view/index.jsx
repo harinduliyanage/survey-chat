@@ -53,7 +53,7 @@ const ChatView = () => {
   // set user chat messages in chat array
   const sendChatMessageObj = async (event) => {
     event.preventDefault();
-    if (readyState === 1) {
+    if (readyState === 1 && msg) {
       sendMessage(msg);
       setChatState([
         ...chatState,
@@ -128,7 +128,7 @@ const ChatView = () => {
                 onChange={(e) => setMsg(e.target.value)} />
             </Grid>
             <Grid container item xs={1} justifyContent="left">
-              <IconButton type="submit" onClick={sendChatMessageObj}>
+              <IconButton type="submit" onClick={sendChatMessageObj} disabled={msg===''}>
                 <SendSharp fontSize="large" />
               </IconButton>
             </Grid>

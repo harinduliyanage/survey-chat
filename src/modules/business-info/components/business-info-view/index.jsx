@@ -112,13 +112,15 @@ const BusinessInfoView = () => {
   // set user chat messages in chat array
   const sendChatMessageObj = async (event) => {
     event.preventDefault();
-    dispatch(
-      businessInfoActions.setChatState({
-        message: msg,
-        role: 'user',
-      })
-    );
-    setMsg('');
+    if(msg){
+      dispatch(
+        businessInfoActions.setChatState({
+          message: msg,
+          role: 'user',
+        })
+      );
+      setMsg('');
+    }
   };
   //
   return (
@@ -178,7 +180,7 @@ const BusinessInfoView = () => {
               />
             </Grid>
             <Grid container item xs={1} justifyContent="left">
-              <IconButton type="submit" onClick={sendChatMessageObj}>
+              <IconButton type="submit" onClick={sendChatMessageObj} disabled={msg===''}>
                 <SendSharp fontSize="large" />
               </IconButton>
             </Grid>

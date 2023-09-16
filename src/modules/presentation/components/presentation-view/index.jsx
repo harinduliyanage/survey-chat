@@ -53,14 +53,16 @@ const PresentationView = () => {
   // set user chat messages in chat array
   const sendChatMessageObj = async (event) => {
     event.preventDefault();
-    setChatState([
-      ...chatState,
-      {
-        message: msg,
-        role: 'user',
-      },
-    ]);
-    setMsg('');
+    if(msg){
+      setChatState([
+        ...chatState,
+        {
+          message: msg,
+          role: 'user',
+        },
+      ]);
+      setMsg('');
+    }
   };
   //
   return isInvalidHashId  ? <InvalidHashID /> : (
@@ -119,7 +121,7 @@ const PresentationView = () => {
             />
           </Grid>
           <Grid container item xs={1} justifyContent="left">
-            <IconButton type="submit" onClick={sendChatMessageObj}>
+            <IconButton type="submit" onClick={sendChatMessageObj} disabled={msg===''}>
               <SendSharp fontSize="large" />
             </IconButton>
           </Grid>
