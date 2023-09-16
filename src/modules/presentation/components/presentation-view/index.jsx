@@ -2,18 +2,21 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { Loader } from 'modules/common/components';
 import { selectLoader } from 'modules/business-info/selectors';
-import { Avatar, Grid, IconButton, TextField, Typography } from '@mui/material';
+import { Avatar, Button, Grid, IconButton, TextField, Typography } from '@mui/material';
 import { SendSharp } from '@mui/icons-material';
 import { useEffect, useState } from 'react';
 import { blue } from '@mui/material/colors';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { presentationActions } from 'modules/presentation/slice';
+import { selectPresentation } from 'modules/presentation/selectors';
+import ROUTES from 'modules/common/constants/route';
 
 const PresentationView = () => {
   const { hashId } = useParams();
   const dispatch = useDispatch();
   //
   const loading = useSelector(selectLoader);
+  const isPresentationHashExists =  useSelector(selectPresentation);
   const [msg, setMsg] = useState('');
   const [chatState, setChatState] = useState([
     {
@@ -60,7 +63,7 @@ const PresentationView = () => {
     setMsg('');
   };
   //
-  return (
+  return isPresentationHashExists ? (
     <Loader loading={loading}>
       <Grid
         sx={{
@@ -102,10 +105,9 @@ const PresentationView = () => {
             </Grid>
           ))}
         </Grid>
-     
       </Grid>
-      <form style={{width: "100%", position:'fixed'}}>
-        <Grid container flexDirection="row" sx={{mt:4}}>
+      <form style={{ width: '100%', position: 'fixed' }}>
+        <Grid container flexDirection="row" sx={{ mt: 4 }}>
           <Grid item xs={11}>
             <TextField
               fullWidth
@@ -122,8 +124,22 @@ const PresentationView = () => {
             </IconButton>
           </Grid>
         </Grid>
-        </form>
+      </form>
     </Loader>
+  ) : (
+    <Grid container justifyContent="center" flexDirection="column">
+      <Typography component="h1" variant="h1" align="center" gutterBottom>
+        404
+      </Typography>
+      <Typography component="h2" variant="body1" align="center" gutterBottom>
+        The presentation you are looking for is not available.
+      </Typography>
+      <Grid item justifyContent="center" display="flex">
+        <Button component={Link} to={ROUTES.BUSINESS_INFO} variant="contained" color="secondary" mt={2}>
+          Return to Business Info Page
+        </Button>
+      </Grid>
+    </Grid>
   );
 };
 //
