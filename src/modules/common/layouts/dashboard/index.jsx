@@ -1,27 +1,15 @@
-import { useState } from 'react';
 import styled from '@emotion/styled';
 import { Outlet } from 'react-router-dom';
-import { Box, CssBaseline, Paper as MuiPaper } from '@mui/material';
+import { CssBaseline, Paper as MuiPaper } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { spacing } from '@mui/system';
 import GlobalStyle from 'modules/common/style/global';
-import Navbar from 'modules/common/components/navbar/navbar';
-import Footer from '../../components/footer';
-import Sidebar from '../../components/sidebar/side-bar';
-
-const drawerWidth = 258;
+import { Footer } from 'modules/common/components';
 
 const Root = styled.div`
   display: flex;
   min-height: 100vh;
-`;
-
-const Drawer = styled.div`
-  ${(props) => props.theme.breakpoints.up('md')} {
-    width: ${drawerWidth}px;
-    flex-shrink: 0;
-  }
 `;
 
 const AppContent = styled.div`
@@ -47,12 +35,6 @@ const MainContent = styled(Paper)`
 `;
 
 const DashboardLayout = () => {
-  const [mobileOpen, setMobileOpen] = useState(false);
-
-  const handleDrawerToggle = () => {
-    setMobileOpen(!mobileOpen);
-  };
-
   const theme = useTheme();
   const isLgUp = useMediaQuery(theme.breakpoints.up('lg'));
 
@@ -60,29 +42,12 @@ const DashboardLayout = () => {
     <Root>
       <CssBaseline />
       <GlobalStyle />
-      <Drawer>
-        <Box sx={{ display: { xs: 'block', lg: 'none' } }}>
-          <Sidebar
-            PaperProps={{ style: { width: drawerWidth } }}
-            variant="temporary"
-            open={mobileOpen}
-            onClose={handleDrawerToggle}
-          />
-        </Box>
-        <Box sx={{ display: { xs: 'none', md: 'block' } }}>
-          <Sidebar
-            PaperProps={{ style: { width: drawerWidth } }}
-          />
-        </Box>
-      </Drawer>
       <AppContent>
-        <Navbar onDrawerToggle={handleDrawerToggle} />
         <MainContent px={isLgUp ? 12 : 5}>
           <Outlet />
         </MainContent>
         <Footer />
       </AppContent>
-      {/* <Settings /> */}
     </Root>
   );
 };
