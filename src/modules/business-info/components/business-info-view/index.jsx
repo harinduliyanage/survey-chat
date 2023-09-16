@@ -1,14 +1,20 @@
 /* eslint-disable react/no-array-index-key */
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Loader } from 'modules/common/components';
-import { selectLoader } from 'modules/business-info/selectors';
+import { selectLoader, selectSurveyInfo } from 'modules/business-info/selectors';
 import { Avatar, Grid, IconButton, TextField, Typography } from '@mui/material';
 import { SendSharp } from '@mui/icons-material';
 import { useEffect, useState } from 'react';
 import { blue } from '@mui/material/colors';
+import { businessInfoActions } from 'modules/business-info/slice';
+import { useNavigate } from 'react-router-dom';
 
 const BusinessInfoView = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const loading = useSelector(selectLoader);
+  const surveyInfo = useSelector(selectSurveyInfo);
+
   const [msg, setMsg] = useState('');
   const [chatState, setChatState] = useState([
     {
@@ -16,11 +22,35 @@ const BusinessInfoView = () => {
       role: 'system',
     },
   ]);
+  const [businessInfo, setBusinessInfo] = useState({
+    business_name: '',
+    business_description: '',
+    survey_name:'',
+    survey_description: ''
+  })
+   useEffect(()=>{
+    if(surveyInfo && chatState.length === 8){
+      setChatState([
+        ...chatState,
+        {
+          message: <>
+          <span >Survey link : <button type='button' onClick={()=> navigate(surveyInfo.survey_link)}>{surveyInfo.survey_link}</button></span> <br/>
+          <span> Presentation link : <button type='button' onClick={()=> navigate(surveyInfo.presentation_link)}>{surveyInfo.presentation_link}</button></span>
+          </>,
+          role: 'system',
+        },
+      ]);
+    }
 
+   },[surveyInfo])
   useEffect(() => {
     setTimeout(() => {
       if (chatState?.length > 1 && chatState.length % 2 === 0) {
         if (chatState.length === 2) {
+          setBusinessInfo({
+            ...businessInfo,
+            business_name: chatState[1].message
+          })
           setChatState([
             ...chatState,
             {
@@ -30,6 +60,10 @@ const BusinessInfoView = () => {
           ]);
         }
         if (chatState.length === 4) {
+          setBusinessInfo({
+            ...businessInfo,
+            business_description: chatState[3].message
+          })
           setChatState([
             ...chatState,
             {
@@ -39,6 +73,10 @@ const BusinessInfoView = () => {
           ]);
         }
         if (chatState.length === 6) {
+          setBusinessInfo({
+            ...businessInfo,
+            survey_name: chatState[5].message
+          })
           setChatState([
             ...chatState,
             {
@@ -47,9 +85,21 @@ const BusinessInfoView = () => {
             },
           ]);
         }
+        if(chatState.length === 8){
+          setBusinessInfo({
+            ...businessInfo,
+            survey_description: chatState[7].message
+          })
+        }
       }
     }, 2000);
   }, [chatState?.length]);
+  //
+  useEffect(()=>{
+    if(businessInfo.business_name && businessInfo.business_description && businessInfo.survey_name && businessInfo.survey_description){
+      dispatch(businessInfoActions.createSurvey(businessInfo))
+    }
+  },[businessInfo])
   // set user chat messages in chat array
   const sendChatMessageObj = async (event) => {
     event.preventDefault();
