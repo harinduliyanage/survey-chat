@@ -3,9 +3,9 @@ import ROUTES from 'modules/common/constants/route';
  * All route names defined here
  */
 const ROUTE_NAMES = {
-  [ROUTES.DASHBOARD]: 'Dashboard',
-  [ROUTES.USERS]: 'Users',
-  [ROUTES.ALERTS]: 'Alerts',
+  [ROUTES.BUSINESS_INFO]: 'Business Info',
+  [ROUTES.CHAT]: 'Chat',
+  [ROUTES.PRESENTATION]: 'Presentation',
 };
 //
 export default ROUTE_NAMES;

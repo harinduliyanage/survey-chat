@@ -13,7 +13,7 @@ import {
   persistStore,
 } from 'redux-persist';
 import { notificationSlice } from 'modules/common/notifications/slice';
-import { dashboardSlice } from 'modules/dashboard/slice';
+import { businessInfoSlice } from 'modules/business-info/slice';
 
 export const sagaMiddleware = createSagaMiddleware();
 /**
@@ -21,7 +21,7 @@ export const sagaMiddleware = createSagaMiddleware();
  */
 const reducers = combineReducers({
   'feature/notification': notificationSlice.reducer,
-  'feature/dashboard': dashboardSlice.reducer,
+  'feature/business-info': businessInfoSlice.reducer,
 });
 /**
  * Register all the slices into the main store with encryption
