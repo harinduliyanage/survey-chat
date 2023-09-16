@@ -6,12 +6,13 @@ import { createSlice } from '@reduxjs/toolkit';
 export const initialState = {
   loading: false,
   isInvalidHashId: false,
+  summary: '',
 };
 /**
- * All actions related to dashboard feature are defined here
+ * All actions related to presentation feature are defined here
  */
 export const presentationSlice = createSlice({
-  name: 'feature/business-info',
+  name: 'feature/presentation',
   initialState,
   reducers: {
     getPresentation(state) {
@@ -24,6 +25,19 @@ export const presentationSlice = createSlice({
     getPresentationFailed(state) {
       state.loading = false;
       state.isInvalidHashId = true;
+    },
+    getSummary(state) {
+      state.loading = true;
+    },
+    getSummarySucceeded(state, action) {
+      state.loading = false;
+      state.summary = action?.payload;
+    },
+    getSummaryFailed(state) {
+      state.loading = false;
+    },
+    resetSummary(state) {
+      state.summary = '';
     },
   },
 });

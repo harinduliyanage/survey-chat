@@ -92,7 +92,7 @@ const ChatView = () => {
                   container
                   flexDirection="row"
                   item
-                  xs={6}
+                  xs={8}
                   width="fit-content"
                   style={{
                     padding: 5,

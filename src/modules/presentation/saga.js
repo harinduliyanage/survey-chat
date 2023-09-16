@@ -16,8 +16,22 @@ export function* presentationGenerator({ payload }) {
     yield put(presentationActions.getPresentationFailed(error?.message));
   }
 }
+/**
+ * get presentation generator function to check presentation exists or not
+ * @param {*} param0
+ */
+export function* summaryGenerator({ payload }) {
+  try {
+    const response = yield call(request, API.GET_SUMMARY, payload);
+    yield put(presentationActions.getSummarySucceeded(response));
+  } catch (error) {
+    yield put(presentationActions.getSummaryFailed(error?.message));
+  }
+}
+//
 export function* presentationSaga() {
   yield takeLatest(presentationActions.getPresentation.type, presentationGenerator);
+  yield takeLatest(presentationActions.getSummary.type, summaryGenerator);
 }
 //
 export default presentationSaga;

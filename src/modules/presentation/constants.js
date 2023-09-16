@@ -6,6 +6,10 @@ const API = {
     path: '/presentation/:hashId',
     method: 'GET',
   },
+  GET_SUMMARY: {
+    path: '/summarize_survey/:hashId',
+    method: 'GET',
+  },
 };
 //
 export default API;

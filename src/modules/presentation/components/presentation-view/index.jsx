@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 import { blue } from '@mui/material/colors';
 import { useParams } from 'react-router-dom';
 import { presentationActions } from 'modules/presentation/slice';
-import { selectIsInvalidHashId, selectLoader } from 'modules/presentation/selectors';
+import { selectIsInvalidHashId, selectLoader, selectSummary } from 'modules/presentation/selectors';
 
 const PresentationView = () => {
   const { hashId } = useParams();
@@ -15,6 +15,8 @@ const PresentationView = () => {
   //
   const loading = useSelector(selectLoader);
   const isInvalidHashId = useSelector(selectIsInvalidHashId);
+  const summary = useSelector(selectSummary);
+  //
   const [msg, setMsg] = useState('');
   const [chatState, setChatState] = useState([
     {
@@ -27,6 +29,18 @@ const PresentationView = () => {
     dispatch(presentationActions.getPresentation({ hashId }));
   }, [hashId]);
   //
+  useEffect(() => {
+    if (summary) {
+      setChatState([
+        ...chatState,
+        {
+          message: `Here is your summary : ${summary}`,
+          role: 'system',
+        },
+      ]);
+      dispatch(presentationActions.resetSummary());
+    }
+  }, [summary]);
   // checks user input and append system message or send api request
   useEffect(() => {
     setTimeout(() => {
@@ -35,7 +49,7 @@ const PresentationView = () => {
           chatState[chatState.length - 1].message.toLowerCase() === 'yes' ||
           chatState[chatState.length - 1].message.toLowerCase() === 'y'
         ) {
-          // post api request
+          dispatch(presentationActions.getSummary({ hashId }));
         } else {
           setChatState([
             ...chatState,
@@ -87,7 +101,7 @@ const PresentationView = () => {
               container
               flexDirection="row"
               item
-              xs={6}
+              xs={8}
               width="fit-content"
               style={{
                 padding: 5,
