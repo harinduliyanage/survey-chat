@@ -42,7 +42,7 @@ const PresentationView = () => {
           setChatState([
             ...chatState,
             {
-              message: 'Sorry the only answer i can interpreter is yes or y ',
+              message: 'Sorry the only answer I can interpreter is yes or y ',
               role: 'system',
             },
           ]);
