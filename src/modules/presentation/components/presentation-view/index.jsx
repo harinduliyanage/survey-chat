@@ -2,21 +2,21 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { Loader } from 'modules/common/components';
 import { selectLoader } from 'modules/business-info/selectors';
-import { Avatar, Button, Grid, IconButton, TextField, Typography } from '@mui/material';
+import { Avatar, Grid, IconButton, TextField, Typography } from '@mui/material';
 import { SendSharp } from '@mui/icons-material';
 import { useEffect, useState } from 'react';
 import { blue } from '@mui/material/colors';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { presentationActions } from 'modules/presentation/slice';
-import { selectPresentation } from 'modules/presentation/selectors';
-import ROUTES from 'modules/common/constants/route';
+import { selectIsInvalidHashId } from 'modules/presentation/selectors';
+import InvalidHashID from '../not-found';
 
 const PresentationView = () => {
   const { hashId } = useParams();
   const dispatch = useDispatch();
   //
   const loading = useSelector(selectLoader);
-  const isPresentationHashExists =  useSelector(selectPresentation);
+  const isInvalidHashId =  useSelector(selectIsInvalidHashId);
   const [msg, setMsg] = useState('');
   const [chatState, setChatState] = useState([
     {
@@ -34,8 +34,8 @@ const PresentationView = () => {
     setTimeout(() => {
       if (chatState?.length > 1 && chatState.length % 2 === 0) {
         if (
-          chatState[chatState.length - 1].message === 'yes' ||
-          chatState[chatState.length - 1].message === 'y'
+          chatState[chatState.length - 1].message.toLowerCase() === 'yes' ||
+          chatState[chatState.length - 1].message.toLowerCase() === 'y'
         ) {
           // post api request
         } else {
@@ -63,7 +63,7 @@ const PresentationView = () => {
     setMsg('');
   };
   //
-  return isPresentationHashExists ? (
+  return isInvalidHashId  ? <InvalidHashID /> : (
     <Loader loading={loading}>
       <Grid
         sx={{
@@ -126,20 +126,6 @@ const PresentationView = () => {
         </Grid>
       </form>
     </Loader>
-  ) : (
-    <Grid container justifyContent="center" flexDirection="column">
-      <Typography component="h1" variant="h1" align="center" gutterBottom>
-        404
-      </Typography>
-      <Typography component="h2" variant="body1" align="center" gutterBottom>
-        The presentation you are looking for is not available.
-      </Typography>
-      <Grid item justifyContent="center" display="flex">
-        <Button component={Link} to={ROUTES.BUSINESS_INFO} variant="contained" color="secondary" mt={2}>
-          Return to Business Info Page
-        </Button>
-      </Grid>
-    </Grid>
   );
 };
 //

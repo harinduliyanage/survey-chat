@@ -5,7 +5,7 @@ import { createSlice } from '@reduxjs/toolkit';
  */
 export const initialState = {
   loading: false,
-  presentation: false
+  isInvalidHashId: false,
 };
 /**
  * All actions related to dashboard feature are defined here
@@ -19,11 +19,11 @@ export const presentationSlice= createSlice({
     },
     getPresentationSucceeded(state) {
       state.loading = false;
-      state.presentation = true;
+      state.isInvalidHashId = false;
     },
     getPresentationFailed(state) {
       state.loading = false;
-      state.presentation = false
+      state.isInvalidHashId = true
     },
   },
 });
