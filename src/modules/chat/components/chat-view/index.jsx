@@ -6,8 +6,10 @@ import { Avatar, Grid, IconButton, Paper, TextField, Typography } from '@mui/mat
 import { SendSharp } from '@mui/icons-material';
 import { useState } from 'react';
 import { blue } from '@mui/material/colors';
+import { useLocation } from 'react-router-dom';
 
 const ChatView = () => {
+  const location = useLocation();
   const loading = useSelector(selectLoader);
   const [msg, setMsg] = useState('');
   const [chatState, setChatState] = useState([]);
@@ -28,9 +30,9 @@ const ChatView = () => {
   return (
     <Loader loading={loading}>
       <Grid sx={{ backgroundColor: 'darkblue', borderRadius: 5, py: 4, mb: 2 }}>
-        <Paper sx={{ backgroundColor: 'darkblue', ml: 4 }} alignItems="center">
+        <Paper sx={{ backgroundColor: 'darkblue', ml: 4, alignItems:"center" }} >
           <Typography color="white" variant="h6">
-            Chat survey ID: ABC
+            Chat survey ID: {location.pathname.split("/")?.[2]}
           </Typography>
         </Paper>
       </Grid>
