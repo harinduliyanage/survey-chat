@@ -12,7 +12,6 @@ const Navbar = () => {
   const navigate = useNavigate();
   // get current path location
   const location = useLocation();
-  //
   // set initial selected path state
   const [selected, setSelected] = useState({
     businessInfo: location.pathname === ROUTES.BUSINESS_INFO,
