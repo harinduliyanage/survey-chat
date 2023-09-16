@@ -15,15 +15,15 @@ const Navbar = () => {
   // set initial selected path state
   const [selected, setSelected] = useState({
     businessInfo: location.pathname === ROUTES.BUSINESS_INFO,
-    chat: location.pathname === ROUTES.CHAT,
-    presentation: location.pathname === ROUTES.PRESENTATION,
+    chat: location.pathname.includes(ROUTES.CHAT),
+    presentation: location.pathname.includes(ROUTES.PRESENTATION),
   });
   // set selected menu item based on changed location
   useEffect(() => {
     setSelected({
       businessInfo: location.pathname === ROUTES.BUSINESS_INFO,
-      chat: location.pathname === ROUTES.CHAT,
-      presentation: location.pathname === ROUTES.PRESENTATION,
+      chat: location.pathname.includes(ROUTES.CHAT),
+      presentation: location.pathname.includes(ROUTES.PRESENTATION),
     });
   }, [location]);
   //

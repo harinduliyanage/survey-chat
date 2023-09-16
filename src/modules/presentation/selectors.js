@@ -2,11 +2,16 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { initialState } from './slice';
 
-const selectDomain = (state) => state['feature/dashboard'] || initialState;
+const selectDomain = (state) => state['feature/presentation'] || initialState;
 /**
  * Getting loader state to dashboard component
  */
 export const selectLoader = createSelector(
   [selectDomain],
-  (dashboardState) => dashboardState.loading
+  (presentationState) => presentationState.loading
 );
+/**
+ * Getting the business info state into the component
+ */
+export const selectPresentation = createSelector([selectDomain], (presentationState) => presentationState?.presentation);
+
