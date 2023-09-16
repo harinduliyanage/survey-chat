@@ -75,7 +75,7 @@ const ChatView = () => {
   //
   return (
     <Loader loading={loading}>
-      <Grid sx={{ backgroundColor: 'darkblue', borderRadius: 5, py: 4, mb: 2 }}>
+      <Grid sx={{ backgroundColor: 'darkblue', borderRadius: 5, py: 3, mb: 1 }}>
         <Paper sx={{ backgroundColor: 'darkblue', ml: 4, alignItems: "center" }} >
           <Typography color="white" variant="h6">
             Chat survey ID: {surveyId}
@@ -90,7 +90,7 @@ const ChatView = () => {
           p: 3,
         }}
       >
-        <Grid sx={{ width: '100%', height: '75vh', overflowY: 'scroll', mx: 1 }}>
+        <Grid sx={{ width: '100%', height: '70vh', overflowY: 'scroll', mx: 1 }}>
           {chatState?.map((item, index) => (
             <Grid
               key={index}
@@ -122,8 +122,10 @@ const ChatView = () => {
             </Grid>
           ))}
         </Grid>
-
-        <Grid container flexDirection="row">
+      
+      </Grid>
+      <form style={{width: "100%", position:'fixed'}}>
+        <Grid container flexDirection="row" sx={{mt:4}}>
           <Grid item xs={11}>
             <TextField
               fullWidth
@@ -134,13 +136,13 @@ const ChatView = () => {
               onChange={(e) => setMsg(e.target.value)}
             />
           </Grid>
-          <Grid container item xs={1} justifyContent="center">
+          <Grid container item xs={1} justifyContent="left">
             <IconButton type="submit" onClick={sendChatMessageObj}>
               <SendSharp fontSize="large" />
             </IconButton>
           </Grid>
         </Grid>
-      </Grid>
+        </form>
     </Loader>
   );
 };
