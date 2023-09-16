@@ -1,5 +1,4 @@
 /* eslint-disable react/no-array-index-key */
-/* eslint-disable no-unused-vars */
 import { useDispatch, useSelector } from 'react-redux';
 import { Loader } from 'modules/common/components';
 import { selectLoader } from 'modules/business-info/selectors';
@@ -7,22 +6,26 @@ import { Avatar, Grid, IconButton, Paper, TextField, Typography } from '@mui/mat
 import { SendSharp } from '@mui/icons-material';
 import { useEffect, useState } from 'react';
 import { blue } from '@mui/material/colors';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { chatActions } from 'modules/chat/slice';
 import useWebSocket from 'react-use-websocket';
 import { ENVIRONMENT } from 'config';
+import { selectIsInvalidSurveyId } from 'modules/chat/selectors';
+import ROUTES from 'modules/common/constants/route';
 
 const ChatView = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { surveyId } = useParams();
   //
   const loading = useSelector(selectLoader);
+  const IsInvalidSurveyId = useSelector(selectIsInvalidSurveyId);
   //
   const [msg, setMsg] = useState('');
   const [chatState, setChatState] = useState([]);
   //
   const socketUrl = `${ENVIRONMENT.WEB_SOCKET_URL}/${surveyId}`;
-
+  //
   const {
     sendMessage,
     lastMessage,
@@ -30,12 +33,18 @@ const ChatView = () => {
   } = useWebSocket(socketUrl, {
     onOpen: () => console.log('opened'),
     // Will attempt to reconnect on all close events, such as server shutting down
-    shouldReconnect: (closeEvent) => true,
+    shouldReconnect: () => true,
   });
   //
   useEffect(() => {
-    dispatch(chatActions.createSurveySession({ surveyId }));
+    dispatch(chatActions.validateSurveyLinkId({ surveyId }));
   }, [surveyId]);
+  //
+  useEffect(() => {
+    if (IsInvalidSurveyId) {
+      navigate(ROUTES.NOT_FOUND_PAGE);
+    }
+  }, [IsInvalidSurveyId])
   //
   useEffect(() => {
     if (lastMessage) {

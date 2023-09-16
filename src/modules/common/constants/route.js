@@ -7,6 +7,7 @@ const ROUTES = {
   CHAT: '/chat/:surveyId',
   PRESENTATION: '/presentation',
   NOT_FOUND: '*',
+  NOT_FOUND_PAGE: '/404',
 };
 //
 export default ROUTES;

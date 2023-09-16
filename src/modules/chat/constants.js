@@ -2,9 +2,9 @@
  * Dashboard feature related request structures are defined here
  */
 const API = {
-    POST_CREATE_SURVEY: {
-        path: '/create_survey_session/:surveyId',
-        method: 'POST',
+    GET_VALIDATE_SURVEY_ID: {
+        path: '/survey/:surveyId',
+        method: 'GET',
     },
 };
 //
