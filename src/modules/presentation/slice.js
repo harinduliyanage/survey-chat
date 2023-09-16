@@ -5,24 +5,25 @@ import { createSlice } from '@reduxjs/toolkit';
  */
 export const initialState = {
   loading: false,
-  presentation: {}
+  isInvalidHashId: false,
 };
 /**
  * All actions related to dashboard feature are defined here
  */
-export const presentationSlice= createSlice({
+export const presentationSlice = createSlice({
   name: 'feature/business-info',
   initialState,
   reducers: {
     getPresentation(state) {
       state.loading = true;
     },
-    getPresentationSucceeded(state, action) {
+    getPresentationSucceeded(state) {
       state.loading = false;
-      state.presentation = action?.payload;
+      state.isInvalidHashId = false;
     },
     getPresentationFailed(state) {
       state.loading = false;
+      state.isInvalidHashId = true;
     },
   },
 });

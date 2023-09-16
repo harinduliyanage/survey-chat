@@ -43,7 +43,7 @@ const DashboardLayout = () => {
       <CssBaseline />
       <GlobalStyle />
       <AppContent>
-       <Navbar/>
+        <Navbar />
         <MainContent px={isLgUp ? 12 : 5}>
           <Outlet />
         </MainContent>

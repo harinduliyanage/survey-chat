@@ -21,12 +21,12 @@ export const chatSlice = createSlice({
     validateSurveyLinkIdSucceeded: (state) => ({
       ...state,
       loading: false,
-      isInvalidSurveyId: false
+      isInvalidSurveyId: false,
     }),
     validateSurveyLinkIdFailed: (state) => ({
       ...state,
       loading: false,
-      isInvalidSurveyId: true
+      isInvalidSurveyId: true,
     }),
   },
 });

@@ -13,16 +13,14 @@ export const sagaMiddleware = createSagaMiddleware();
 const reducers = combineReducers({
   'feature/business-info': businessInfoSlice.reducer,
   'feature/chat': chatSlice.reducer,
-  'feature/presentation': presentationSlice.reducer
+  'feature/presentation': presentationSlice.reducer,
 });
 /**
  * Register all the slices into the main store with encryption
  */
 const store = configureStore({
   reducer: reducers,
-  middleware: () => [
-    sagaMiddleware,
-  ],
+  middleware: () => [sagaMiddleware],
 });
 sagaMiddleware.run(rootSaga);
 //

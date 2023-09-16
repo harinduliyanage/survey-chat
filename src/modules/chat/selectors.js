@@ -6,11 +6,11 @@ const selectDomain = (state) => state['feature/chat'] || initialState;
 /**
  * Getting loader state to chat component
  */
-export const selectLoader = createSelector(
-  [selectDomain],
-  (chatState) => chatState.loading
-);
+export const selectLoader = createSelector([selectDomain], (chatState) => chatState.loading);
 /**
  * Selector for isInvalidSurveyId state
  */
-export const selectIsInvalidSurveyId = createSelector([selectDomain], (chatState) => chatState.isInvalidSurveyId);
+export const selectIsInvalidSurveyId = createSelector(
+  [selectDomain],
+  (chatState) => chatState.isInvalidSurveyId
+);
