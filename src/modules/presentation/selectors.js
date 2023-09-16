@@ -2,11 +2,25 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { initialState } from './slice';
 
-const selectDomain = (state) => state['feature/dashboard'] || initialState;
+const selectDomain = (state) => state['feature/presentation'] || initialState;
 /**
  * Getting loader state to dashboard component
  */
 export const selectLoader = createSelector(
   [selectDomain],
-  (dashboardState) => dashboardState.loading
+  (presentationState) => presentationState.loading
+);
+/**
+ * Getting the is invalid hash state into the component
+ */
+export const selectIsInvalidHashId = createSelector(
+  [selectDomain],
+  (presentationState) => presentationState?.isInvalidHashId
+);
+/**
+ * Getting the summary state into the component
+ */
+export const selectSummary = createSelector(
+  [selectDomain],
+  (presentationState) => presentationState?.summary
 );

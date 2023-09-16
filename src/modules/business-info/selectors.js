@@ -13,4 +13,14 @@ export const selectLoader = createSelector(
 /**
  * Getting the business info state into the component
  */
-export const selectSurveyInfo = createSelector([selectDomain], (businessInfoState) => businessInfoState?.surveyInfo);
+export const selectSurveyInfo = createSelector(
+  [selectDomain],
+  (businessInfoState) => businessInfoState?.surveyInfo
+);
+/**
+ * Getting the chat state state into the component
+ */
+export const selectChatState = createSelector(
+  [selectDomain],
+  (businessInfoState) => businessInfoState?.chatState
+);

@@ -1,14 +1,22 @@
 /* eslint-disable react/no-array-index-key */
-import { useSelector } from 'react-redux';
-import { Loader } from 'modules/common/components';
-import { selectLoader } from 'modules/business-info/selectors';
+import { useDispatch, useSelector } from 'react-redux';
+import { InvalidSlug, Loader } from 'modules/common/components';
 import { Avatar, Grid, IconButton, TextField, Typography } from '@mui/material';
 import { SendSharp } from '@mui/icons-material';
 import { useEffect, useState } from 'react';
 import { blue } from '@mui/material/colors';
+import { useParams } from 'react-router-dom';
+import { presentationActions } from 'modules/presentation/slice';
+import { selectIsInvalidHashId, selectLoader, selectSummary } from 'modules/presentation/selectors';
 
 const PresentationView = () => {
+  const { hashId } = useParams();
+  const dispatch = useDispatch();
+  //
   const loading = useSelector(selectLoader);
+  const isInvalidHashId = useSelector(selectIsInvalidHashId);
+  const summary = useSelector(selectSummary);
+  //
   const [msg, setMsg] = useState('');
   const [chatState, setChatState] = useState([
     {
@@ -16,20 +24,37 @@ const PresentationView = () => {
       role: 'system',
     },
   ]);
- // checks user input and append system message or send api request
+  //
+  useEffect(() => {
+    dispatch(presentationActions.getPresentation({ hashId }));
+  }, [hashId]);
+  //
+  useEffect(() => {
+    if (summary) {
+      setChatState([
+        ...chatState,
+        {
+          message: `Here is your summary : ${summary}`,
+          role: 'system',
+        },
+      ]);
+      dispatch(presentationActions.resetSummary());
+    }
+  }, [summary]);
+  // checks user input and append system message or send api request
   useEffect(() => {
     setTimeout(() => {
       if (chatState?.length > 1 && chatState.length % 2 === 0) {
         if (
-          chatState[chatState.length - 1].message === 'yes' ||
-          chatState[chatState.length - 1].message === 'y'
+          chatState[chatState.length - 1].message.toLowerCase() === 'yes' ||
+          chatState[chatState.length - 1].message.toLowerCase() === 'y'
         ) {
-          // post api request
+          dispatch(presentationActions.getSummary({ hashId }));
         } else {
           setChatState([
             ...chatState,
             {
-              message: 'Sorry the only answer i can interpreter is yes or y ',
+              message: 'Sorry the only answer I can interpreter is yes or y ',
               role: 'system',
             },
           ]);
@@ -40,17 +65,26 @@ const PresentationView = () => {
   // set user chat messages in chat array
   const sendChatMessageObj = async (event) => {
     event.preventDefault();
-    setChatState([
-      ...chatState,
-      {
-        message: msg,
-        role: 'user',
-      },
-    ]);
-    setMsg('');
+    if (msg) {
+      setChatState([
+        ...chatState,
+        {
+          message: msg,
+          role: 'user',
+        },
+      ]);
+      setMsg('');
+    }
   };
   //
-  return (
+  return isInvalidHashId ? (
+    <InvalidSlug
+      message="Invalid hash received."
+      description="We apologize for the inconvenience, but it seems that the hash you provided is not recognized
+    by our system. To successfully access or participate in the survey, please make sure to use a
+    valid and correctly formatted hash."
+    />
+  ) : (
     <Loader loading={loading}>
       <Grid
         sx={{
@@ -60,14 +94,14 @@ const PresentationView = () => {
           p: 3,
         }}
       >
-        <Grid sx={{ width: '100%', height: '80vh', overflowY: 'scroll', mx: 1 }}>
+        <Grid sx={{ width: '100%', height: '75vh', overflowY: 'scroll', mx: 1 }}>
           {chatState?.map((item, index) => (
             <Grid
               key={index}
               container
               flexDirection="row"
               item
-              xs={6}
+              xs={8}
               width="fit-content"
               style={{
                 padding: 5,
@@ -92,8 +126,9 @@ const PresentationView = () => {
             </Grid>
           ))}
         </Grid>
-
-        <Grid container flexDirection="row">
+      </Grid>
+      <form style={{ width: '100%', position: 'fixed' }}>
+        <Grid container flexDirection="row" sx={{ mt: 4 }}>
           <Grid item xs={11}>
             <TextField
               fullWidth
@@ -104,13 +139,13 @@ const PresentationView = () => {
               onChange={(e) => setMsg(e.target.value)}
             />
           </Grid>
-          <Grid container item xs={1} justifyContent="center">
-            <IconButton type="submit" onClick={sendChatMessageObj}>
+          <Grid container item xs={1} justifyContent="left">
+            <IconButton type="submit" onClick={sendChatMessageObj} disabled={msg === ''}>
               <SendSharp fontSize="large" />
             </IconButton>
           </Grid>
         </Grid>
-      </Grid>
+      </form>
     </Loader>
   );
 };

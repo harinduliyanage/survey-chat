@@ -5,12 +5,18 @@ import { createSlice } from '@reduxjs/toolkit';
  */
 export const initialState = {
   loading: false,
-  surveyInfo: {}
+  surveyInfo: {},
+  chatState: [
+    {
+      message: 'Please provide your business name',
+      role: 'system',
+    },
+  ],
 };
 /**
  * All actions related to dashboard feature are defined here
  */
-export const businessInfoSlice= createSlice({
+export const businessInfoSlice = createSlice({
   name: 'feature/business-info',
   initialState,
   reducers: {
@@ -23,6 +29,9 @@ export const businessInfoSlice= createSlice({
     },
     createSurveyFailed(state) {
       state.loading = false;
+    },
+    setChatState(state, action) {
+      state.chatState = [...state.chatState, action.payload];
     },
   },
 });

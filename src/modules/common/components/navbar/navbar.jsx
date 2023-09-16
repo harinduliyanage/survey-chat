@@ -15,22 +15,28 @@ const Navbar = () => {
   // set initial selected path state
   const [selected, setSelected] = useState({
     businessInfo: location.pathname === ROUTES.BUSINESS_INFO,
-    chat: location.pathname === ROUTES.CHAT,
-    presentation: location.pathname === ROUTES.PRESENTATION,
+    chat: location.pathname?.split('/')?.[1] === ROUTES.CHAT?.split('/')?.[1],
+    presentation: location.pathname?.split('/')?.[1] === ROUTES.PRESENTATION?.split('/')?.[1],
   });
   // set selected menu item based on changed location
   useEffect(() => {
     setSelected({
       businessInfo: location.pathname === ROUTES.BUSINESS_INFO,
-      chat: location.pathname === ROUTES.CHAT,
-      presentation: location.pathname === ROUTES.PRESENTATION,
+      chat: location.pathname?.split('/')?.[1] === ROUTES.CHAT?.split('/')?.[1],
+      presentation: location.pathname?.split('/')?.[1] === ROUTES.PRESENTATION?.split('/')?.[1],
     });
   }, [location]);
   //
   return (
     <AppBar position="sticky" elevation={0} sx={{ height: 75, maxHeight: 75 }}>
-      <Toolbar sx={{ backgroundColor: '#2e384a'}}>
-        <Grid container alignItems="center" justifyContent="center" direction="row" sx={{ backgroundColor: '#2e384a'}}>
+      <Toolbar sx={{ backgroundColor: '#2e384a' }}>
+        <Grid
+          container
+          alignItems="center"
+          justifyContent="center"
+          direction="row"
+          sx={{ backgroundColor: '#2e384a' }}
+        >
           <Grid item sx={{ display: 'block' }}>
             <Button
               onClick={() => {

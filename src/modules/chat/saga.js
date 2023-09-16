@@ -7,19 +7,19 @@ import API from './constants';
  * Generator function for create survey session
  * @param {Object} payload
  */
-export function* createSurveySessionGenerator({ payload }) {
-    try {
-        const response = yield call(request, API.POST_CREATE_SURVEY, payload);
-        yield put(chatActions.createSurveySessionSucceeded(response));
-    } catch (error) {
-        yield put(chatActions.createSurveySessionFailed(error?.message));
-    }
+export function* validateSurveyLinkGenerator({ payload }) {
+  try {
+    const response = yield call(request, API.GET_VALIDATE_SURVEY_ID, payload);
+    yield put(chatActions.validateSurveyLinkIdSucceeded(response));
+  } catch (error) {
+    yield put(chatActions.validateSurveyLinkIdFailed(error?.message));
+  }
 }
 /**
  * Redux saga that triggers above generated functions
  */
 export function* chatSaga() {
-    yield takeLatest(chatActions.createSurveySession.type, createSurveySessionGenerator);
+  yield takeLatest(chatActions.validateSurveyLinkId.type, validateSurveyLinkGenerator);
 }
 //
 export default chatSaga;
