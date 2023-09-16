@@ -1,13 +1,18 @@
 /* eslint-disable react/no-array-index-key */
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Loader } from 'modules/common/components';
 import { selectLoader } from 'modules/business-info/selectors';
 import { Avatar, Grid, IconButton, TextField, Typography } from '@mui/material';
 import { SendSharp } from '@mui/icons-material';
 import { useEffect, useState } from 'react';
 import { blue } from '@mui/material/colors';
+import { useParams } from 'react-router-dom';
+import { presentationActions } from 'modules/presentation/slice';
 
 const PresentationView = () => {
+  const { hashId } = useParams();
+  const dispatch = useDispatch();
+  //
   const loading = useSelector(selectLoader);
   const [msg, setMsg] = useState('');
   const [chatState, setChatState] = useState([
@@ -16,7 +21,12 @@ const PresentationView = () => {
       role: 'system',
     },
   ]);
- // checks user input and append system message or send api request
+  //
+  useEffect(() => {
+    dispatch(presentationActions.getPresentation({ hashId }));
+  }, [hashId]);
+  //
+  // checks user input and append system message or send api request
   useEffect(() => {
     setTimeout(() => {
       if (chatState?.length > 1 && chatState.length % 2 === 0) {

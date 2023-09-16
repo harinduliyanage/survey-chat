@@ -155,7 +155,7 @@ const BusinessInfoView = () => {
             </Grid>
           ))}
         </Grid>
-
+        <form style={{width: "100%"}}>
         <Grid container flexDirection="row">
           <Grid item xs={11}>
             <TextField
@@ -173,6 +173,7 @@ const BusinessInfoView = () => {
             </IconButton>
           </Grid>
         </Grid>
+        </form>
       </Grid>
     </Loader>
   );
