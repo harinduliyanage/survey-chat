@@ -1,7 +1,6 @@
 /* eslint-disable react/no-array-index-key */
 import { useDispatch, useSelector } from 'react-redux';
 import { InvalidSlug, Loader } from 'modules/common/components';
-import { selectLoader } from 'modules/business-info/selectors';
 import { Avatar, Grid, IconButton, Paper, TextField, Typography } from '@mui/material';
 import { SendSharp } from '@mui/icons-material';
 import { useEffect, useState } from 'react';
@@ -10,7 +9,7 @@ import { useParams } from 'react-router-dom';
 import { chatActions } from 'modules/chat/slice';
 import useWebSocket from 'react-use-websocket';
 import { ENVIRONMENT } from 'config';
-import { selectIsInvalidSurveyId } from 'modules/chat/selectors';
+import { selectIsInvalidSurveyId, selectLoader } from 'modules/chat/selectors';
 
 const ChatView = () => {
   const dispatch = useDispatch();

@@ -1,14 +1,13 @@
 /* eslint-disable react/no-array-index-key */
 import { useDispatch, useSelector } from 'react-redux';
 import { InvalidSlug, Loader } from 'modules/common/components';
-import { selectLoader } from 'modules/business-info/selectors';
 import { Avatar, Grid, IconButton, TextField, Typography } from '@mui/material';
 import { SendSharp } from '@mui/icons-material';
 import { useEffect, useState } from 'react';
 import { blue } from '@mui/material/colors';
 import { useParams } from 'react-router-dom';
 import { presentationActions } from 'modules/presentation/slice';
-import { selectIsInvalidHashId } from 'modules/presentation/selectors';
+import { selectIsInvalidHashId, selectLoader } from 'modules/presentation/selectors';
 
 const PresentationView = () => {
   const { hashId } = useParams();
