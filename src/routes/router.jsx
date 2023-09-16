@@ -35,7 +35,7 @@ const routes = [
     ],
   },
   {
-    path: `${ROUTES.CHAT}/:id`,
+    path: ROUTES.CHAT,
     element: (
       <DashboardLayout />
     ),
