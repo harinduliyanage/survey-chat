@@ -1,6 +1,6 @@
 /* eslint-disable react/no-array-index-key */
 import { useDispatch, useSelector } from 'react-redux';
-import { InvalidSurveyID, Loader } from 'modules/common/components';
+import { InvalidSlug, Loader } from 'modules/common/components';
 import { selectLoader } from 'modules/business-info/selectors';
 import { Avatar, Grid, IconButton, Paper, TextField, Typography } from '@mui/material';
 import { SendSharp } from '@mui/icons-material';
@@ -64,7 +64,7 @@ const ChatView = () => {
   return (
     <Loader loading={loading}>
       {IsInvalidSurveyId ? (
-        <InvalidSurveyID
+        <InvalidSlug
           message="Invalid survey ID received."
           description="We apologize for the inconvenience, but it seems that the survey ID you provided is 
           not recognized by our system. To successfully access or participate in the survey, please make sure to use a valid and correctly formatted survey ID."

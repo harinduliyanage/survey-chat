@@ -1,6 +1,6 @@
 /* eslint-disable react/no-array-index-key */
 import { useDispatch, useSelector } from 'react-redux';
-import { InvalidSurveyID, Loader } from 'modules/common/components';
+import { InvalidSlug, Loader } from 'modules/common/components';
 import { selectLoader } from 'modules/business-info/selectors';
 import { Avatar, Grid, IconButton, TextField, Typography } from '@mui/material';
 import { SendSharp } from '@mui/icons-material';
@@ -65,7 +65,7 @@ const PresentationView = () => {
   };
   //
   return isInvalidHashId ? (
-    <InvalidSurveyID
+    <InvalidSlug
       message="Invalid hash received."
       description="We apologize for the inconvenience, but it seems that the hash you provided is not recognized
     by our system. To successfully access or participate in the survey, please make sure to use a

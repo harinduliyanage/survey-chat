@@ -15,7 +15,7 @@ const Wrapper = styled.div`
  * @param {*} props
  * @returns
  */
-const InvalidSurveyID = (props) => {
+const InvalidSlug = (props) => {
   const { message, description } = props;
   //
   return (
@@ -30,4 +30,4 @@ const InvalidSurveyID = (props) => {
   );
 };
 //
-export default InvalidSurveyID;
+export default InvalidSlug;
