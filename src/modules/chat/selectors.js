@@ -2,11 +2,15 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { initialState } from './slice';
 
-const selectDomain = (state) => state['feature/dashboard'] || initialState;
+const selectDomain = (state) => state['feature/chat'] || initialState;
 /**
- * Getting loader state to dashboard component
+ * Getting loader state to chat component
  */
 export const selectLoader = createSelector(
   [selectDomain],
-  (dashboardState) => dashboardState.loading
+  (chatState) => chatState.loading
 );
+/**
+ * Selector for isInvalidSurveyId state
+ */
+export const selectIsInvalidSurveyId = createSelector([selectDomain], (chatState) => chatState.isInvalidSurveyId);

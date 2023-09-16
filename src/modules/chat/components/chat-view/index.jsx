@@ -1,5 +1,4 @@
 /* eslint-disable react/no-array-index-key */
-/* eslint-disable no-unused-vars */
 import { useDispatch, useSelector } from 'react-redux';
 import { Loader } from 'modules/common/components';
 import { selectLoader } from 'modules/business-info/selectors';
@@ -11,18 +10,21 @@ import { useParams } from 'react-router-dom';
 import { chatActions } from 'modules/chat/slice';
 import useWebSocket from 'react-use-websocket';
 import { ENVIRONMENT } from 'config';
+import { selectIsInvalidSurveyId } from 'modules/chat/selectors';
+import InvalidSurveyID from '../not-found';
 
 const ChatView = () => {
   const dispatch = useDispatch();
   const { surveyId } = useParams();
   //
   const loading = useSelector(selectLoader);
+  const IsInvalidSurveyId = useSelector(selectIsInvalidSurveyId);
   //
   const [msg, setMsg] = useState('');
   const [chatState, setChatState] = useState([]);
   //
   const socketUrl = `${ENVIRONMENT.WEB_SOCKET_URL}/${surveyId}`;
-
+  //
   const {
     sendMessage,
     lastMessage,
@@ -30,11 +32,11 @@ const ChatView = () => {
   } = useWebSocket(socketUrl, {
     onOpen: () => console.log('opened'),
     // Will attempt to reconnect on all close events, such as server shutting down
-    shouldReconnect: (closeEvent) => true,
+    shouldReconnect: () => true,
   });
   //
   useEffect(() => {
-    dispatch(chatActions.createSurveySession({ surveyId }));
+    dispatch(chatActions.validateSurveyLinkId({ surveyId }));
   }, [surveyId]);
   //
   useEffect(() => {
@@ -66,74 +68,72 @@ const ChatView = () => {
   //
   return (
     <Loader loading={loading}>
-      <Grid sx={{ backgroundColor: 'darkblue', borderRadius: 5, py: 3, mb: 1 }}>
-        <Paper sx={{ backgroundColor: 'darkblue', ml: 4, alignItems: "center" }} >
+      {IsInvalidSurveyId ? <InvalidSurveyID /> : (<><Grid sx={{ backgroundColor: 'darkblue', borderRadius: 5, py: 3, mb: 1 }}>
+        <Paper sx={{ backgroundColor: 'darkblue', ml: 4, alignItems: "center" }}>
           <Typography color="white" variant="h6">
             Chat survey ID: {surveyId}
           </Typography>
         </Paper>
       </Grid>
-      <Grid
-        sx={{
-          backgroundColor: '#f5f5f5',
-          borderRadius: 5,
-          boxShadow: 9,
-          p: 3,
-        }}
-      >
-        <Grid sx={{ width: '100%', height: '70vh', overflowY: 'scroll', mx: 1 }}>
-          {chatState?.map((item, index) => (
-            <Grid
-              key={index}
-              container
-              flexDirection="row"
-              item
-              xs={6}
-              width="fit-content"
-              style={{
-                padding: 5,
-                borderRadius: 10,
-                marginTop: 5,
-                backgroundColor: item.role === 'system' ? '#2e384a' : '#e0e0e0',
-                marginLeft: item.role === 'user' ? 'auto' : 0,
-                marginRight: item.role === 'system' ? 'auto' : 0,
-                justifyContent: 'space-between',
-                alignItems: 'center',
-              }}
-            >
-              <Avatar sx={{ bgcolor: blue[500] }} variant="circular">
-                {item.role === 'user' ? 'U' : 'B'}
-              </Avatar>
-              <Typography
-                fontSize={16}
-                sx={{ color: item.role === 'system' ? 'white' : 'black', mx: 3 }}
+        <Grid
+          sx={{
+            backgroundColor: '#f5f5f5',
+            borderRadius: 5,
+            boxShadow: 9,
+            p: 3,
+          }}
+        >
+          <Grid sx={{ width: '100%', height: '70vh', overflowY: 'scroll', mx: 1 }}>
+            {chatState?.map((item, index) => (
+              <Grid
+                key={index}
+                container
+                flexDirection="row"
+                item
+                xs={6}
+                width="fit-content"
+                style={{
+                  padding: 5,
+                  borderRadius: 10,
+                  marginTop: 5,
+                  backgroundColor: item.role === 'system' ? '#2e384a' : '#e0e0e0',
+                  marginLeft: item.role === 'user' ? 'auto' : 0,
+                  marginRight: item.role === 'system' ? 'auto' : 0,
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}
               >
-                {item.message}
-              </Typography>
+                <Avatar sx={{ bgcolor: blue[500] }} variant="circular">
+                  {item.role === 'user' ? 'U' : 'B'}
+                </Avatar>
+                <Typography
+                  fontSize={16}
+                  sx={{ color: item.role === 'system' ? 'white' : 'black', mx: 3 }}
+                >
+                  {item.message}
+                </Typography>
+              </Grid>
+            ))}
+          </Grid>
+
+        </Grid><form style={{ width: "100%", position: 'fixed' }}>
+          <Grid container flexDirection="row" sx={{ mt: 4 }}>
+            <Grid item xs={11}>
+              <TextField
+                fullWidth
+                type="text"
+                placeholder="Type a message.."
+                InputProps={{ sx: { borderRadius: 5, backgroundColor: '#e0e0e0', fontSize: 16 } }}
+                value={msg}
+                onChange={(e) => setMsg(e.target.value)} />
             </Grid>
-          ))}
-        </Grid>
-      
-      </Grid>
-      <form style={{width: "100%", position:'fixed'}}>
-        <Grid container flexDirection="row" sx={{mt:4}}>
-          <Grid item xs={11}>
-            <TextField
-              fullWidth
-              type="text"
-              placeholder="Type a message.."
-              InputProps={{ sx: { borderRadius: 5, backgroundColor: '#e0e0e0', fontSize: 16 } }}
-              value={msg}
-              onChange={(e) => setMsg(e.target.value)}
-            />
+            <Grid container item xs={1} justifyContent="left">
+              <IconButton type="submit" onClick={sendChatMessageObj}>
+                <SendSharp fontSize="large" />
+              </IconButton>
+            </Grid>
           </Grid>
-          <Grid container item xs={1} justifyContent="left">
-            <IconButton type="submit" onClick={sendChatMessageObj}>
-              <SendSharp fontSize="large" />
-            </IconButton>
-          </Grid>
-        </Grid>
-        </form>
+        </form></>)}
     </Loader>
   );
 };
