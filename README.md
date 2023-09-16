@@ -1,6 +1,6 @@
 ## How to run
 
-Before anything else, you must have node installed on your machine.
+Before anything else, you must have node v16.20 installed on your machine.
 
 ## Install Dependencies
 ```bash
