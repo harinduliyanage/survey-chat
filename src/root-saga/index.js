@@ -1,4 +1,5 @@
 import { chatSaga } from 'modules/chat/saga';
+import { businessInfoSaga } from 'modules/business-info/saga';
 import { all, fork } from 'redux-saga/effects';
 
 /**
@@ -7,5 +8,6 @@ import { all, fork } from 'redux-saga/effects';
 export default function* rootSaga() {
   yield all([
     fork(chatSaga),
+    fork(businessInfoSaga),
   ]);
 }

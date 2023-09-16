@@ -53,7 +53,7 @@ const ChatView = () => {
   return (
     <Loader loading={loading}>
       <Grid sx={{ backgroundColor: 'darkblue', borderRadius: 5, py: 4, mb: 2 }}>
-        <Paper sx={{ backgroundColor: 'darkblue', ml: 4 }} alignItems="center">
+        <Paper sx={{ backgroundColor: 'darkblue', ml: 4, alignItems: "center" }} >
           <Typography color="white" variant="h6">
             Chat survey ID: {surveyId}
           </Typography>
