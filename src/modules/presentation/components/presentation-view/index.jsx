@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 import { blue } from '@mui/material/colors';
 import { useParams } from 'react-router-dom';
 import { presentationActions } from 'modules/presentation/slice';
-import { selectIsInvalidHashId } from 'modules/presentation/selectors';
+import { selectIsInvalidHashId, selectSummary } from 'modules/presentation/selectors';
 import InvalidHashID from '../not-found';
 
 const PresentationView = () => {
@@ -16,7 +16,9 @@ const PresentationView = () => {
   const dispatch = useDispatch();
   //
   const loading = useSelector(selectLoader);
-  const isInvalidHashId =  useSelector(selectIsInvalidHashId);
+  const isInvalidHashId = useSelector(selectIsInvalidHashId);
+  const summary = useSelector(selectSummary);
+  //
   const [msg, setMsg] = useState('');
   const [chatState, setChatState] = useState([
     {
@@ -29,6 +31,18 @@ const PresentationView = () => {
     dispatch(presentationActions.getPresentation({ hashId }));
   }, [hashId]);
   //
+  useEffect(() => {
+    if (summary) {
+      setChatState([
+        ...chatState,
+        {
+          message: `Here is your summary : ${summary}`,
+          role: 'system',
+        },
+      ]);
+      dispatch(presentationActions.resetSummary());
+    }
+  }, [summary]);
   // checks user input and append system message or send api request
   useEffect(() => {
     setTimeout(() => {
@@ -37,7 +51,7 @@ const PresentationView = () => {
           chatState[chatState.length - 1].message.toLowerCase() === 'yes' ||
           chatState[chatState.length - 1].message.toLowerCase() === 'y'
         ) {
-          // post api request
+          dispatch(presentationActions.getSummary({ hashId }));
         } else {
           setChatState([
             ...chatState,
@@ -53,7 +67,7 @@ const PresentationView = () => {
   // set user chat messages in chat array
   const sendChatMessageObj = async (event) => {
     event.preventDefault();
-    if(msg){
+    if (msg) {
       setChatState([
         ...chatState,
         {
@@ -65,7 +79,9 @@ const PresentationView = () => {
     }
   };
   //
-  return isInvalidHashId  ? <InvalidHashID /> : (
+  return isInvalidHashId ? (
+    <InvalidHashID />
+  ) : (
     <Loader loading={loading}>
       <Grid
         sx={{
@@ -82,7 +98,7 @@ const PresentationView = () => {
               container
               flexDirection="row"
               item
-              xs={6}
+              xs={8}
               width="fit-content"
               style={{
                 padding: 5,
@@ -121,7 +137,7 @@ const PresentationView = () => {
             />
           </Grid>
           <Grid container item xs={1} justifyContent="left">
-            <IconButton type="submit" onClick={sendChatMessageObj} disabled={msg===''}>
+            <IconButton type="submit" onClick={sendChatMessageObj} disabled={msg === ''}>
               <SendSharp fontSize="large" />
             </IconButton>
           </Grid>

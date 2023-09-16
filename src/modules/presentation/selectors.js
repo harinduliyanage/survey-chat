@@ -11,7 +11,16 @@ export const selectLoader = createSelector(
   (presentationState) => presentationState.loading
 );
 /**
- * Getting the business info state into the component
+ * Getting the is invalid hash state into the component
  */
-export const selectIsInvalidHashId = createSelector([selectDomain], (presentationState) => presentationState?.isInvalidHashId);
-
+export const selectIsInvalidHashId = createSelector(
+  [selectDomain],
+  (presentationState) => presentationState?.isInvalidHashId
+);
+/**
+ * Getting the summary state into the component
+ */
+export const selectSummary = createSelector(
+  [selectDomain],
+  (presentationState) => presentationState?.summary
+);
