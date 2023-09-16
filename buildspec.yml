@@ -31,3 +31,6 @@ artifacts:
     - "build/*"
     - "build/**/*"
     - "build.zip"
+cache:
+  paths:
+    - /root/.cache/yarn/**/*
