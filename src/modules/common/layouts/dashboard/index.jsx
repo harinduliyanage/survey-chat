@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import { CssBaseline, Paper as MuiPaper } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -35,6 +35,7 @@ const MainContent = styled(Paper)`
 `;
 
 const DashboardLayout = () => {
+  const location = useLocation();
   const theme = useTheme();
   const isLgUp = useMediaQuery(theme.breakpoints.up('lg'));
 
@@ -43,7 +44,7 @@ const DashboardLayout = () => {
       <CssBaseline />
       <GlobalStyle />
       <AppContent>
-        <Navbar />
+        { !location.pathname.startsWith("/chat") && <Navbar />}
         <MainContent px={isLgUp ? 12 : 5}>
           <Outlet />
         </MainContent>
