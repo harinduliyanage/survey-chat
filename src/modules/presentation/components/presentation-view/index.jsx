@@ -34,7 +34,7 @@ const PresentationView = () => {
       setChatState([
         ...chatState,
         {
-          message: `Here is your summary : ${summary}`,
+          message: `Here is your summary : ${summary.split(/:\s\d+\.\s/).join('\n')}`,
           role: 'system',
         },
       ]);
@@ -119,7 +119,7 @@ const PresentationView = () => {
               </Avatar>
               <Typography
                 fontSize={16}
-                sx={{ color: item.role === 'system' ? 'white' : 'black', mx: 3 }}
+                sx={{ color: item.role === 'system' ? 'white' : 'black', mx: 3 , whiteSpace: 'pre-line' }}
               >
                 {item.message}
               </Typography>
