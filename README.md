@@ -1,3 +1,23 @@
+## How to run
+
+Before anything else, you must have node installed on your machine.
+
+## Install Dependencies
+```bash
+npm install
+```
+
+## Set the environment variables
+
+```bash
+cp sample.env .env
+
+# open .env and modify the environment variables (if needed)
+```
+### Running Dev Server
+
+Run on your terminal `npm run start`, the server will restart everytime you make a change in your code.
+
 ## Tech Stack
 
 - [React](https://reactjs.org/), [React Router](https://reactrouter.com/), [Recoil](https://recoiljs.org/),
