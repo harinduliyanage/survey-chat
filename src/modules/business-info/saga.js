@@ -17,7 +17,7 @@ export function* createSurveyGenerator({ payload }) {
   }
 }
 export function* businessInfoSaga() {
-    yield takeLatest(businessInfoActions.createSurvey.type, createSurveyGenerator);
-  }
-  //
+  yield takeLatest(businessInfoActions.createSurvey.type, createSurveyGenerator);
+}
+//
 export default businessInfoSaga;

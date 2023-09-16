@@ -12,9 +12,7 @@ import { ChatView } from 'modules/chat/components';
 const routes = [
   {
     path: ROUTES.ROOT,
-    element: (
-      <DashboardLayout />
-    ),
+    element: <DashboardLayout />,
     children: [
       {
         path: '',
@@ -24,9 +22,7 @@ const routes = [
   },
   {
     path: ROUTES.BUSINESS_INFO,
-    element: (
-      <DashboardLayout />
-    ),
+    element: <DashboardLayout />,
     children: [
       {
         path: '',
@@ -36,9 +32,7 @@ const routes = [
   },
   {
     path: ROUTES.CHAT,
-    element: (
-      <DashboardLayout />
-    ),
+    element: <DashboardLayout />,
     children: [
       {
         path: '',
@@ -48,9 +42,7 @@ const routes = [
   },
   {
     path: ROUTES.PRESENTATION,
-    element: (
-      <DashboardLayout />
-    ),
+    element: <DashboardLayout />,
     children: [
       {
         path: '',

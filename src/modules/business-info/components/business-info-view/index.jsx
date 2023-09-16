@@ -112,7 +112,7 @@ const BusinessInfoView = () => {
   // set user chat messages in chat array
   const sendChatMessageObj = async (event) => {
     event.preventDefault();
-    if(msg){
+    if (msg) {
       dispatch(
         businessInfoActions.setChatState({
           message: msg,
@@ -165,27 +165,26 @@ const BusinessInfoView = () => {
             </Grid>
           ))}
         </Grid>
-    
       </Grid>
-      <form style={{ width: '100%', position:'fixed' }}>
-          <Grid container flexDirection="row" sx={{mt:4}}>
-            <Grid item xs={11}>
-              <TextField
-                fullWidth
-                type="text"
-                placeholder="Type a message.."
-                InputProps={{ sx: { borderRadius: 5, backgroundColor: '#e0e0e0', fontSize: 16 } }}
-                value={msg}
-                onChange={(e) => setMsg(e.target.value)}
-              />
-            </Grid>
-            <Grid container item xs={1} justifyContent="left">
-              <IconButton type="submit" onClick={sendChatMessageObj} disabled={msg===''}>
-                <SendSharp fontSize="large" />
-              </IconButton>
-            </Grid>
+      <form style={{ width: '100%', position: 'fixed' }}>
+        <Grid container flexDirection="row" sx={{ mt: 4 }}>
+          <Grid item xs={11}>
+            <TextField
+              fullWidth
+              type="text"
+              placeholder="Type a message.."
+              InputProps={{ sx: { borderRadius: 5, backgroundColor: '#e0e0e0', fontSize: 16 } }}
+              value={msg}
+              onChange={(e) => setMsg(e.target.value)}
+            />
           </Grid>
-        </form>
+          <Grid container item xs={1} justifyContent="left">
+            <IconButton type="submit" onClick={sendChatMessageObj} disabled={msg === ''}>
+              <SendSharp fontSize="large" />
+            </IconButton>
+          </Grid>
+        </Grid>
+      </form>
     </Loader>
   );
 };

@@ -1,15 +1,13 @@
 /* eslint-disable react/no-array-index-key */
 import { useDispatch, useSelector } from 'react-redux';
-import { Loader } from 'modules/common/components';
-import { selectLoader } from 'modules/business-info/selectors';
+import { InvalidSlug, Loader } from 'modules/common/components';
 import { Avatar, Grid, IconButton, TextField, Typography } from '@mui/material';
 import { SendSharp } from '@mui/icons-material';
 import { useEffect, useState } from 'react';
 import { blue } from '@mui/material/colors';
 import { useParams } from 'react-router-dom';
 import { presentationActions } from 'modules/presentation/slice';
-import { selectIsInvalidHashId, selectSummary } from 'modules/presentation/selectors';
-import InvalidHashID from '../not-found';
+import { selectIsInvalidHashId, selectLoader, selectSummary } from 'modules/presentation/selectors';
 
 const PresentationView = () => {
   const { hashId } = useParams();
@@ -80,7 +78,12 @@ const PresentationView = () => {
   };
   //
   return isInvalidHashId ? (
-    <InvalidHashID />
+    <InvalidSlug
+      message="Invalid hash received."
+      description="We apologize for the inconvenience, but it seems that the hash you provided is not recognized
+    by our system. To successfully access or participate in the survey, please make sure to use a
+    valid and correctly formatted hash."
+    />
   ) : (
     <Loader loading={loading}>
       <Grid
