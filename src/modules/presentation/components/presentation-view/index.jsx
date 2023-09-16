@@ -1,6 +1,6 @@
 /* eslint-disable react/no-array-index-key */
 import { useDispatch, useSelector } from 'react-redux';
-import { Loader } from 'modules/common/components';
+import { InvalidSurveyID, Loader } from 'modules/common/components';
 import { selectLoader } from 'modules/business-info/selectors';
 import { Avatar, Grid, IconButton, TextField, Typography } from '@mui/material';
 import { SendSharp } from '@mui/icons-material';
@@ -9,14 +9,13 @@ import { blue } from '@mui/material/colors';
 import { useParams } from 'react-router-dom';
 import { presentationActions } from 'modules/presentation/slice';
 import { selectIsInvalidHashId } from 'modules/presentation/selectors';
-import InvalidHashID from '../not-found';
 
 const PresentationView = () => {
   const { hashId } = useParams();
   const dispatch = useDispatch();
   //
   const loading = useSelector(selectLoader);
-  const isInvalidHashId =  useSelector(selectIsInvalidHashId);
+  const isInvalidHashId = useSelector(selectIsInvalidHashId);
   const [msg, setMsg] = useState('');
   const [chatState, setChatState] = useState([
     {
@@ -53,7 +52,7 @@ const PresentationView = () => {
   // set user chat messages in chat array
   const sendChatMessageObj = async (event) => {
     event.preventDefault();
-    if(msg){
+    if (msg) {
       setChatState([
         ...chatState,
         {
@@ -65,7 +64,14 @@ const PresentationView = () => {
     }
   };
   //
-  return isInvalidHashId  ? <InvalidHashID /> : (
+  return isInvalidHashId ? (
+    <InvalidSurveyID
+      message="Invalid hash received."
+      description="We apologize for the inconvenience, but it seems that the hash you provided is not recognized
+    by our system. To successfully access or participate in the survey, please make sure to use a
+    valid and correctly formatted hash."
+    />
+  ) : (
     <Loader loading={loading}>
       <Grid
         sx={{
@@ -121,7 +127,7 @@ const PresentationView = () => {
             />
           </Grid>
           <Grid container item xs={1} justifyContent="left">
-            <IconButton type="submit" onClick={sendChatMessageObj} disabled={msg===''}>
+            <IconButton type="submit" onClick={sendChatMessageObj} disabled={msg === ''}>
               <SendSharp fontSize="large" />
             </IconButton>
           </Grid>

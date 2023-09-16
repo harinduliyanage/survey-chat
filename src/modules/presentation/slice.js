@@ -10,7 +10,7 @@ export const initialState = {
 /**
  * All actions related to dashboard feature are defined here
  */
-export const presentationSlice= createSlice({
+export const presentationSlice = createSlice({
   name: 'feature/business-info',
   initialState,
   reducers: {
@@ -23,7 +23,7 @@ export const presentationSlice= createSlice({
     },
     getPresentationFailed(state) {
       state.loading = false;
-      state.isInvalidHashId = true
+      state.isInvalidHashId = true;
     },
   },
 });

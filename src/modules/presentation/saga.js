@@ -9,15 +9,15 @@ import API from './constants';
  * @param {*} param0
  */
 export function* presentationGenerator({ payload }) {
-    try {
-      const response = yield call(request, API.GET_PRESENTATION, payload);
-      yield put(presentationActions.getPresentationSucceeded(response));
-    } catch (error) {
-      yield put(presentationActions.getPresentationFailed(error?.message));
-    }
+  try {
+    const response = yield call(request, API.GET_PRESENTATION, payload);
+    yield put(presentationActions.getPresentationSucceeded(response));
+  } catch (error) {
+    yield put(presentationActions.getPresentationFailed(error?.message));
   }
-  export function* presentationSaga() {
-      yield takeLatest(presentationActions.getPresentation.type, presentationGenerator);
-    }
-    //
-  export default presentationSaga;
+}
+export function* presentationSaga() {
+  yield takeLatest(presentationActions.getPresentation.type, presentationGenerator);
+}
+//
+export default presentationSaga;

@@ -8,18 +8,18 @@ import API from './constants';
  * @param {Object} payload
  */
 export function* validateSurveyLinkGenerator({ payload }) {
-    try {
-        const response = yield call(request, API.GET_VALIDATE_SURVEY_ID, payload);
-        yield put(chatActions.validateSurveyLinkIdSucceeded(response));
-    } catch (error) {
-        yield put(chatActions.validateSurveyLinkIdFailed(error?.message));
-    }
+  try {
+    const response = yield call(request, API.GET_VALIDATE_SURVEY_ID, payload);
+    yield put(chatActions.validateSurveyLinkIdSucceeded(response));
+  } catch (error) {
+    yield put(chatActions.validateSurveyLinkIdFailed(error?.message));
+  }
 }
 /**
  * Redux saga that triggers above generated functions
  */
 export function* chatSaga() {
-    yield takeLatest(chatActions.validateSurveyLinkId.type, validateSurveyLinkGenerator);
+  yield takeLatest(chatActions.validateSurveyLinkId.type, validateSurveyLinkGenerator);
 }
 //
 export default chatSaga;
