@@ -9,7 +9,7 @@ import API from './constants';
  */
 export function* createSurveySessionGenerator({ payload }) {
     try {
-        const response = yield call(request, API.ADD_OPEX, payload);
+        const response = yield call(request, API.POST_CREATE_SURVEY, payload);
         yield put(chatActions.createSurveySessionSucceeded(response));
     } catch (error) {
         yield put(chatActions.createSurveySessionFailed(error?.message));
