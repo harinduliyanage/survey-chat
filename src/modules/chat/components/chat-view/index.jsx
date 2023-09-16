@@ -1,4 +1,5 @@
 /* eslint-disable react/no-array-index-key */
+/* eslint-disable no-unused-vars */
 import { useDispatch, useSelector } from 'react-redux';
 import { Loader } from 'modules/common/components';
 import { selectLoader } from 'modules/business-info/selectors';
@@ -8,7 +9,8 @@ import { useEffect, useState } from 'react';
 import { blue } from '@mui/material/colors';
 import { useParams } from 'react-router-dom';
 import { chatActions } from 'modules/chat/slice';
-// import io from 'socket.io-client';
+import useWebSocket from 'react-use-websocket';
+import { ENVIRONMENT } from 'config';
 
 const ChatView = () => {
   const dispatch = useDispatch();
@@ -19,35 +21,47 @@ const ChatView = () => {
   const [msg, setMsg] = useState('');
   const [chatState, setChatState] = useState([]);
   //
-  // useEffect(() => {
-  //   // Connect to the WebSocket server
-  //   const socket = io(`http://your-socket-server-url/${surveyId}`);
+  const socketUrl = `${ENVIRONMENT.WEB_SOCKET_URL}/${surveyId}`;
 
-  //   // You can add event listeners and emit events here
-  //   socket.on('connect', () => {
-  //     console.log('Connected to server');
-  //   });
-
-  //   // Don't forget to close the connection when the component unmounts
-  //   return () => {
-  //     socket.disconnect();
-  //   };
-  // }, [surveyId]);
+  const {
+    sendMessage,
+    lastMessage,
+    readyState,
+  } = useWebSocket(socketUrl, {
+    onOpen: () => console.log('opened'),
+    // Will attempt to reconnect on all close events, such as server shutting down
+    shouldReconnect: (closeEvent) => true,
+  });
+  //
   useEffect(() => {
-    console.log('hiii')
     dispatch(chatActions.createSurveySession({ surveyId }));
-  }, [surveyId])
+  }, [surveyId]);
+  //
+  useEffect(() => {
+    if (lastMessage) {
+      setChatState([
+        ...chatState,
+        {
+          message: lastMessage.data.replace('bot responded:', '').trim(),
+          role: 'auto',
+        },
+      ]);
+    }
+  }, [lastMessage])
   // set user chat messages in chat array
   const sendChatMessageObj = async (event) => {
     event.preventDefault();
-    setChatState([
-      ...chatState,
-      {
-        message: msg,
-        role: 'user',
-      },
-    ]);
-    setMsg('');
+    if (readyState === 1) {
+      sendMessage(msg);
+      setChatState([
+        ...chatState,
+        {
+          message: msg,
+          role: 'user',
+        },
+      ]);
+      setMsg('');
+    }
   };
   //
   return (

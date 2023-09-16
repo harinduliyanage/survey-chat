@@ -1,8 +1,27 @@
+## How to run
+
+Before anything else, you must have node v16.20 installed on your machine.
+
+## Install Dependencies
+```bash
+npm install
+```
+
+## Set the environment variables
+
+```bash
+cp .env.dist .env
+
+# open .env and modify the environment variables (if needed)
+```
+### Running Dev Server
+
+Run on your terminal `npm run start`, the server will restart everytime you make a change in your code.
+
 ## Tech Stack
 
 - [React](https://reactjs.org/), [React Router](https://reactrouter.com/), [Recoil](https://recoiljs.org/),
   [Emotion](https://emotion.sh/), [Material UI](https://next.material-ui.com/),
-  [KeyClock Authentication](https://www.keycloak.org/)
 - [Rollup](https://rollupjs.org/),
   [ESLint](https://eslint.org/),
   [Prettier](https://prettier.io/), [Jest](https://jestjs.io/),
@@ -16,8 +35,7 @@ src\
     |--index.js                   # All the configurations are included in the index.js file since the project is index based. This will make it easier to import into the cross modules
  |--modules\                      # Modules allow you to break up your code into separate files   
     |--common\                    # All the common modules which are used across modules are available here
-       |--assets                  # All the images and fonts are stored here
-       |--auth                    # All authentication related features are available here. This includes, Auth-wrapper, private-router, custom hooks etc... for checking each component-wise permission 
+       |--assets                  # All the images and fonts are stored here permission 
        |--components              # All the common components that are being used across modules (re-usable components) are available here
        |--constants               # All the constants applicable to the project eg: global routes, roles etc. are available here
        |--contexts                # All the context api related files are available here
@@ -25,7 +43,6 @@ src\
        |--hooks                   # Here we add all the custom hooks which are used throughout the application
        |--layouts                 # Includes all the common layouts (e.g.Auth layout, dashboard, etc...)
        |--middleware              # Access for requesting an object, responding to an object, and moving to the next middleware function in the application request-response cycle is managed here
-       |--notifications           # The Notification features applicable for the entire application are maintained here 
        |--scss                    # All the application related scss files are available here
        |--static-data             # This is feature module for getting application common data
        |--style                   # Global styles are included here
