@@ -5,20 +5,14 @@ import { createSlice } from '@reduxjs/toolkit';
  */
 export const initialState = {
   loading: false,
-  deviceList: {},
-  selectedDevicesList: {},
-  readingGroupedByDevice: {},
-  filterList: {
-    results: [],
-  },
 };
 /**
  * All actions related to dashboard feature are defined here
  */
-export const dashboardSlice = createSlice({
-  name: 'feature/dashboard',
+export const businessInfoSlice= createSlice({
+  name: 'feature/business-info',
   initialState,
   reducers: {},
 });
 //
-export const { actions: dashboardActions } = dashboardSlice;
+export const { actions: businessInfoActions } = businessInfoSlice;

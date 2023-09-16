@@ -3,7 +3,9 @@
  */
 const ROUTES = {
   ROOT: '/',
-  DASHBOARD: '/dashboard',
+  BUSINESS_INFO: '/business-info',
+  CHAT: '/chat',
+  PRESENTATION: '/presentation',
   NOT_FOUND: '*',
 };
 //

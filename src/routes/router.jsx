@@ -1,7 +1,9 @@
 import ROUTES from 'modules/common/constants/route';
 import DashboardLayout from 'modules/common/layouts/dashboard';
-import { DashboardView } from 'modules/dashboard/components';
+import { BusinessInfoView } from 'modules/business-info/components';
 import { Page404 } from 'modules/error-pages';
+import { ChatView } from 'modules/chat/components';
+import { PresentationView } from 'modules/presentation/components';
 
 /**
  * Define the routeing structure using array. Here include the nested routeing as well.
@@ -16,7 +18,43 @@ const routes = [
     children: [
       {
         path: '',
-        element: <DashboardView />,
+        element: <BusinessInfoView />,
+      },
+    ],
+  },
+  {
+    path: ROUTES.BUSINESS_INFO,
+    element: (
+      <DashboardLayout />
+    ),
+    children: [
+      {
+        path: '',
+        element: <BusinessInfoView />,
+      },
+    ],
+  },
+  {
+    path: ROUTES.CHAT,
+    element: (
+      <DashboardLayout />
+    ),
+    children: [
+      {
+        path: '',
+        element: <ChatView />,
+      },
+    ],
+  },
+  {
+    path: ROUTES.PRESENTATION,
+    element: (
+      <DashboardLayout />
+    ),
+    children: [
+      {
+        path: '',
+        element: <PresentationView />,
       },
     ],
   },

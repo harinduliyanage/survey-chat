@@ -19,7 +19,7 @@ import storage from 'redux-persist/lib/storage';
 import { ENVIRONMENT } from 'config';
 import logger from 'modules/common/utils/logger';
 import { notificationSlice } from 'modules/common/notifications/slice';
-import { dashboardSlice } from 'modules/dashboard/slice';
+import { businessInfoSlice } from 'modules/business-info/slice';
 
 export const sagaMiddleware = createSagaMiddleware();
 /**
@@ -50,7 +50,7 @@ const persistConfig = {
  */
 const reducers = combineReducers({
   'feature/notification': notificationSlice.reducer,
-  'feature/dashboard': dashboardSlice.reducer,
+  'feature/business-info': businessInfoSlice.reducer,
 });
 /**
  * Define what are the slice which needs to be persist

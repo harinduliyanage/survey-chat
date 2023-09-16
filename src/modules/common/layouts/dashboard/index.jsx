@@ -5,7 +5,7 @@ import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { spacing } from '@mui/system';
 import GlobalStyle from 'modules/common/style/global';
-import { Footer } from 'modules/common/components';
+import Navbar from 'modules/common/components/navbar/navbar';
 
 const Root = styled.div`
   display: flex;
@@ -43,10 +43,10 @@ const DashboardLayout = () => {
       <CssBaseline />
       <GlobalStyle />
       <AppContent>
+       <Navbar/>
         <MainContent px={isLgUp ? 12 : 5}>
           <Outlet />
         </MainContent>
-        <Footer />
       </AppContent>
     </Root>
   );
