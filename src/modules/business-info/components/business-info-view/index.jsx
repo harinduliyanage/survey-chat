@@ -4,7 +4,7 @@ import { Loader } from 'modules/common/components';
 import { selectLoader } from 'modules/business-info/selectors';
 import { Avatar, Grid, IconButton, TextField, Typography } from '@mui/material';
 import { SendSharp } from '@mui/icons-material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { blue } from '@mui/material/colors';
 
 const BusinessInfoView = () => {
@@ -17,6 +17,39 @@ const BusinessInfoView = () => {
     },
   ]);
 
+  useEffect(() => {
+    setTimeout(() => {
+      if (chatState?.length > 1 && chatState.length % 2 === 0) {
+        if (chatState.length === 2) {
+          setChatState([
+            ...chatState,
+            {
+              message: 'Cool. Can you give me a description of your business? ',
+              role: 'system',
+            },
+          ]);
+        }
+        if (chatState.length === 4) {
+          setChatState([
+            ...chatState,
+            {
+              message: 'Please provide your survey name ',
+              role: 'system',
+            },
+          ]);
+        }
+        if (chatState.length === 6) {
+          setChatState([
+            ...chatState,
+            {
+              message: 'Great! Can you give me your survey description? ',
+              role: 'system',
+            },
+          ]);
+        }
+      }
+    }, 2000);
+  }, [chatState?.length]);
   // set user chat messages in chat array
   const sendChatMessageObj = async (event) => {
     event.preventDefault();
@@ -77,7 +110,6 @@ const BusinessInfoView = () => {
           <Grid item xs={11}>
             <TextField
               fullWidth
-              disabled={chatState.length >= 2}
               type="text"
               placeholder="Type a message.."
               InputProps={{ sx: { borderRadius: 5, backgroundColor: '#e0e0e0', fontSize: 16 } }}
