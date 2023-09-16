@@ -4,7 +4,7 @@
 const ROUTES = {
   ROOT: '/',
   BUSINESS_INFO: '/business-info',
-  CHAT: '/chat',
+  CHAT: '/chat/:surveyId',
   PRESENTATION: '/presentation',
   NOT_FOUND: '*',
 };

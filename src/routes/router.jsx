@@ -2,8 +2,8 @@ import ROUTES from 'modules/common/constants/route';
 import DashboardLayout from 'modules/common/layouts/dashboard';
 import { BusinessInfoView } from 'modules/business-info/components';
 import { Page404 } from 'modules/error-pages';
-import { ChatView } from 'modules/chat/components';
 import { PresentationView } from 'modules/presentation/components';
+import { ChatView } from 'modules/chat/components';
 
 /**
  * Define the routeing structure using array. Here include the nested routeing as well.

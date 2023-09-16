@@ -1,19 +1,42 @@
 /* eslint-disable react/no-array-index-key */
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Loader } from 'modules/common/components';
 import { selectLoader } from 'modules/business-info/selectors';
 import { Avatar, Grid, IconButton, Paper, TextField, Typography } from '@mui/material';
 import { SendSharp } from '@mui/icons-material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { blue } from '@mui/material/colors';
-import { useLocation } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import { chatActions } from 'modules/chat/slice';
+// import io from 'socket.io-client';
 
 const ChatView = () => {
-  const location = useLocation();
+  const dispatch = useDispatch();
+  const { surveyId } = useParams();
+  //
   const loading = useSelector(selectLoader);
+  //
   const [msg, setMsg] = useState('');
   const [chatState, setChatState] = useState([]);
+  //
+  // useEffect(() => {
+  //   // Connect to the WebSocket server
+  //   const socket = io(`http://your-socket-server-url/${surveyId}`);
 
+  //   // You can add event listeners and emit events here
+  //   socket.on('connect', () => {
+  //     console.log('Connected to server');
+  //   });
+
+  //   // Don't forget to close the connection when the component unmounts
+  //   return () => {
+  //     socket.disconnect();
+  //   };
+  // }, [surveyId]);
+  useEffect(() => {
+    console.log('hiii')
+    dispatch(chatActions.createSurveySession({ surveyId }));
+  }, [surveyId])
   // set user chat messages in chat array
   const sendChatMessageObj = async (event) => {
     event.preventDefault();
@@ -30,9 +53,9 @@ const ChatView = () => {
   return (
     <Loader loading={loading}>
       <Grid sx={{ backgroundColor: 'darkblue', borderRadius: 5, py: 4, mb: 2 }}>
-        <Paper sx={{ backgroundColor: 'darkblue', ml: 4, alignItems:"center" }} >
+        <Paper sx={{ backgroundColor: 'darkblue', ml: 4, alignItems: "center" }} >
           <Typography color="white" variant="h6">
-            Chat survey ID: {location.pathname.split("/")?.[2]}
+            Chat survey ID: {surveyId}
           </Typography>
         </Paper>
       </Grid>

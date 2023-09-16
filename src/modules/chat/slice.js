@@ -9,10 +9,23 @@ export const initialState = {
 /**
  * All actions related to dashboard feature are defined here
  */
-export const chatSlice= createSlice({
-  name: 'feature/business-info',
+export const chatSlice = createSlice({
+  name: 'feature/chat',
   initialState,
-  reducers: {},
+  reducers: {
+    createSurveySession: (state) => ({
+      ...state,
+      loading: true,
+    }),
+    createSurveySessionSucceeded: (state) => ({
+      ...state,
+      loading: true,
+    }),
+    createSurveySessionFailed: (state) => ({
+      ...state,
+      loading: true,
+    }),
+  },
 });
 //
 export const { actions: chatActions } = chatSlice;
