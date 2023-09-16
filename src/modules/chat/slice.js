@@ -19,11 +19,11 @@ export const chatSlice = createSlice({
     }),
     createSurveySessionSucceeded: (state) => ({
       ...state,
-      loading: true,
+      loading: false,
     }),
     createSurveySessionFailed: (state) => ({
       ...state,
-      loading: true,
+      loading: false,
     }),
   },
 });
