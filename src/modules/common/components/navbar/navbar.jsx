@@ -3,6 +3,8 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { withTheme } from '@emotion/react';
 import { Button, Grid, Toolbar } from '@mui/material';
 import ROUTES from 'modules/common/constants/route';
+import { useSelector } from 'react-redux';
+import { selectSurveyInfo } from 'modules/business-info/selectors';
 import { AppBar } from './style';
 /**
  * Navigation bar common component that uses
@@ -18,6 +20,7 @@ const Navbar = () => {
     chat: location.pathname?.split('/')?.[1] === ROUTES.CHAT?.split('/')?.[1],
     presentation: location.pathname?.split('/')?.[1] === ROUTES.PRESENTATION?.split('/')?.[1],
   });
+  const surveyInfo = useSelector(selectSurveyInfo);
   // set selected menu item based on changed location
   useEffect(() => {
     setSelected({
@@ -62,7 +65,7 @@ const Navbar = () => {
                   chat: true,
                   presentation: false,
                 });
-                navigate(ROUTES.CHAT);
+                navigate(surveyInfo?.survey_link ?? ROUTES.CHAT);
               }}
               variant="text"
               sx={{
@@ -79,7 +82,7 @@ const Navbar = () => {
                   chat: false,
                   presentation: true,
                 });
-                navigate(ROUTES.PRESENTATION);
+                navigate(surveyInfo?.presentation_link ?? ROUTES.PRESENTATION);
               }}
               variant="text"
               sx={{
