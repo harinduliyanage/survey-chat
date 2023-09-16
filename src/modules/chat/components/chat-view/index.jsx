@@ -6,16 +6,15 @@ import { Avatar, Grid, IconButton, Paper, TextField, Typography } from '@mui/mat
 import { SendSharp } from '@mui/icons-material';
 import { useEffect, useState } from 'react';
 import { blue } from '@mui/material/colors';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { chatActions } from 'modules/chat/slice';
 import useWebSocket from 'react-use-websocket';
 import { ENVIRONMENT } from 'config';
 import { selectIsInvalidSurveyId } from 'modules/chat/selectors';
-import ROUTES from 'modules/common/constants/route';
+import InvalidSurveyID from '../not-found';
 
 const ChatView = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const { surveyId } = useParams();
   //
   const loading = useSelector(selectLoader);
@@ -39,12 +38,6 @@ const ChatView = () => {
   useEffect(() => {
     dispatch(chatActions.validateSurveyLinkId({ surveyId }));
   }, [surveyId]);
-  //
-  useEffect(() => {
-    if (IsInvalidSurveyId) {
-      navigate(ROUTES.NOT_FOUND_PAGE);
-    }
-  }, [IsInvalidSurveyId])
   //
   useEffect(() => {
     if (lastMessage) {
@@ -75,74 +68,72 @@ const ChatView = () => {
   //
   return (
     <Loader loading={loading}>
-      <Grid sx={{ backgroundColor: 'darkblue', borderRadius: 5, py: 3, mb: 1 }}>
-        <Paper sx={{ backgroundColor: 'darkblue', ml: 4, alignItems: "center" }} >
+      {IsInvalidSurveyId ? <InvalidSurveyID /> : (<><Grid sx={{ backgroundColor: 'darkblue', borderRadius: 5, py: 3, mb: 1 }}>
+        <Paper sx={{ backgroundColor: 'darkblue', ml: 4, alignItems: "center" }}>
           <Typography color="white" variant="h6">
             Chat survey ID: {surveyId}
           </Typography>
         </Paper>
       </Grid>
-      <Grid
-        sx={{
-          backgroundColor: '#f5f5f5',
-          borderRadius: 5,
-          boxShadow: 9,
-          p: 3,
-        }}
-      >
-        <Grid sx={{ width: '100%', height: '70vh', overflowY: 'scroll', mx: 1 }}>
-          {chatState?.map((item, index) => (
-            <Grid
-              key={index}
-              container
-              flexDirection="row"
-              item
-              xs={6}
-              width="fit-content"
-              style={{
-                padding: 5,
-                borderRadius: 10,
-                marginTop: 5,
-                backgroundColor: item.role === 'system' ? '#2e384a' : '#e0e0e0',
-                marginLeft: item.role === 'user' ? 'auto' : 0,
-                marginRight: item.role === 'system' ? 'auto' : 0,
-                justifyContent: 'space-between',
-                alignItems: 'center',
-              }}
-            >
-              <Avatar sx={{ bgcolor: blue[500] }} variant="circular">
-                {item.role === 'user' ? 'U' : 'B'}
-              </Avatar>
-              <Typography
-                fontSize={16}
-                sx={{ color: item.role === 'system' ? 'white' : 'black', mx: 3 }}
+        <Grid
+          sx={{
+            backgroundColor: '#f5f5f5',
+            borderRadius: 5,
+            boxShadow: 9,
+            p: 3,
+          }}
+        >
+          <Grid sx={{ width: '100%', height: '70vh', overflowY: 'scroll', mx: 1 }}>
+            {chatState?.map((item, index) => (
+              <Grid
+                key={index}
+                container
+                flexDirection="row"
+                item
+                xs={6}
+                width="fit-content"
+                style={{
+                  padding: 5,
+                  borderRadius: 10,
+                  marginTop: 5,
+                  backgroundColor: item.role === 'system' ? '#2e384a' : '#e0e0e0',
+                  marginLeft: item.role === 'user' ? 'auto' : 0,
+                  marginRight: item.role === 'system' ? 'auto' : 0,
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}
               >
-                {item.message}
-              </Typography>
+                <Avatar sx={{ bgcolor: blue[500] }} variant="circular">
+                  {item.role === 'user' ? 'U' : 'B'}
+                </Avatar>
+                <Typography
+                  fontSize={16}
+                  sx={{ color: item.role === 'system' ? 'white' : 'black', mx: 3 }}
+                >
+                  {item.message}
+                </Typography>
+              </Grid>
+            ))}
+          </Grid>
+
+        </Grid><form style={{ width: "100%", position: 'fixed' }}>
+          <Grid container flexDirection="row" sx={{ mt: 4 }}>
+            <Grid item xs={11}>
+              <TextField
+                fullWidth
+                type="text"
+                placeholder="Type a message.."
+                InputProps={{ sx: { borderRadius: 5, backgroundColor: '#e0e0e0', fontSize: 16 } }}
+                value={msg}
+                onChange={(e) => setMsg(e.target.value)} />
             </Grid>
-          ))}
-        </Grid>
-      
-      </Grid>
-      <form style={{width: "100%", position:'fixed'}}>
-        <Grid container flexDirection="row" sx={{mt:4}}>
-          <Grid item xs={11}>
-            <TextField
-              fullWidth
-              type="text"
-              placeholder="Type a message.."
-              InputProps={{ sx: { borderRadius: 5, backgroundColor: '#e0e0e0', fontSize: 16 } }}
-              value={msg}
-              onChange={(e) => setMsg(e.target.value)}
-            />
+            <Grid container item xs={1} justifyContent="left">
+              <IconButton type="submit" onClick={sendChatMessageObj}>
+                <SendSharp fontSize="large" />
+              </IconButton>
+            </Grid>
           </Grid>
-          <Grid container item xs={1} justifyContent="left">
-            <IconButton type="submit" onClick={sendChatMessageObj}>
-              <SendSharp fontSize="large" />
-            </IconButton>
-          </Grid>
-        </Grid>
-        </form>
+        </form></>)}
     </Loader>
   );
 };

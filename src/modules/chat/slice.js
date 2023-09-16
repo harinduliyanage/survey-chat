@@ -21,6 +21,7 @@ export const chatSlice = createSlice({
     validateSurveyLinkIdSucceeded: (state) => ({
       ...state,
       loading: false,
+      isInvalidSurveyId: false
     }),
     validateSurveyLinkIdFailed: (state) => ({
       ...state,
