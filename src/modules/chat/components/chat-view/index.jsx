@@ -118,7 +118,7 @@ const ChatView = () => {
               ))}
             </Grid>
           </Grid>
-          <form style={{ width: '100%', position: 'fixed' }}>
+          <form style={{ width: '100%', paddingBottom: '100px' }}>
             <Grid container flexDirection="row" sx={{ mt: 4 }}>
               <Grid item xs={11}>
                 <TextField
